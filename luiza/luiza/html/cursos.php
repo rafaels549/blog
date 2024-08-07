@@ -15,52 +15,8 @@ $header_titulo = "Cursos";
  
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if(isset($_POST["acao"]) && $_POST["acao"]=="enviar") {
-        setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');   
-        date_default_timezone_set('America/Sao_Paulo');
-        $dominio = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 
-        $nome = strip_tags($_POST['nome']);
-        $whatsapp = strip_tags($_POST['whatsapp']);
-        $email = strip_tags($_POST['email']);
-        $mensagem = nl2br($_POST['mensagem']);
-        
-        $data_atual = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
-
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $headers .= 'From: '.$vb_nome.' <'.$vb_email.'>' . "\r\n";
-        $headers .= 'Bcc: Virtua Brasil<contato@virtuabrasil.com.br>' . "\r\n";
-        $headers .= 'Bcc: Virtua Brasil<dev@virtuabrasil.com.br>' . "\r\n";
-        $headers .= 'Reply-To: '.$nome.' <'.$email.'>' . "\r\n";
-        $headers .= 'X-Mailer: PHP/' . phpversion();
-
-        $mensagememail  = '<strong>Nome:</strong> '.$nome.'<br>';
-        $mensagememail .= '<strong>WhatsApp:</strong> '.$whatsapp.'<br>';
-        $mensagememail .= '<strong>E-mail:</strong> '.$email.'<br><br>';
-        $mensagememail .= '<strong>Mensagem:</strong> '.$mensagem.'<br><br>';
-
-        $mensagememail .= '<strong>IP:</strong> '.$_SERVER['REMOTE_ADDR'].'<br>';
-        $mensagememail .= '<strong>Endereço IP:</strong> '.gethostbyaddr($_SERVER['REMOTE_ADDR']).'<br>';
-        $mensagememail .= ucfirst(IntlDateFormatter::formatObject($data_atual, "eeee, d 'de' MMMM y 'às' HH:mm", 'pt_BR')).'<br>';
-
-        $assunto = '* Formulário de Contato *';
-        $email_to = $vb_nome.'<'.$vb_email.'>';
-        
-        $successo = mail(iconv("UTF-8", "ISO-8859-1", $email_to), iconv("UTF-8", "ISO-8859-1", $assunto), iconv("UTF-8", "ISO-8859-1", $mensagememail), iconv("UTF-8", "ISO-8859-1", $headers));
-   
-        if (!$successo) {
-            echo "<script>alert('Mensagem não enviada!');</script>";
-         
-			exit();
-        }else{
-            echo '<meta http-equiv="refresh" content="0;URL=obrigado">';
-			exit();
-        }
-    }
-}
 ?>
 <html lang="pt-BR">
 
@@ -142,12 +98,12 @@ $categories_query = mysqli_query($conn, $categories_sql);
                 <section id="sidebar">
                     <aside id="search">
                         <header><h3>Procurar</h3></header>
-                        <div class="input-group">
-                            <form action="" class="custom-form" method="post">
-                                <input type="text" class="form-control" name="pesquisa_blog" placeholder="Buscar Cursos">
-                                <span class="input-group-btn"><button class="btn btn-default search"><i class="fa fa-search"></i></button></span>
-                            </form>
-                        </div>
+                        <form action="" class="custom-form" method="post">
+    <input type="text" class="form-control" name="pesquisa_blog" placeholder="Buscar Curso">
+    <button class="btn btn-default search" type="submit">
+        <i class="fa fa-search"></i>
+    </button>
+</form>
                         <h3>Categorias</h3>
                        
                     </aside>   
@@ -211,7 +167,12 @@ $categories_query = mysqli_query($conn, $categories_sql);
                                 <strong>Cidade:</strong> <?= htmlspecialchars($cidade); ?><br>
                                 <strong>Instituição:</strong> <?= htmlspecialchars($instituicao); ?>
                             </p>
-                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow">Saiba Mais</a>
+                            <div class="text-end">
+                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none; ">
+  Saiba Mais
+ 
+</a>
+</div>
                         </div>
                     <?php
                         }
@@ -259,7 +220,14 @@ $categories_query = mysqli_query($conn, $categories_sql);
                                 <strong>Cidade:</strong> <?= htmlspecialchars($cidade); ?><br>
                                 <strong>Instituição:</strong> <?= htmlspecialchars($instituicao); ?>
                             </p>
-                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow">Saiba Mais</a>
+                            <div class="text-end">
+                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none; ">
+  Saiba Mais
+ 
+</a>
+</div>
+
+
                         </div>
                         <?php
                             }
@@ -287,7 +255,12 @@ $categories_query = mysqli_query($conn, $categories_sql);
                     <strong>Cidade:</strong> <?= htmlspecialchars($cidade); ?><br>
                     <strong>Instituição:</strong> <?= htmlspecialchars($instituicao); ?>
                 </p>
-                <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow">Saiba Mais</a>
+                <div class="text-end">
+                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none; ">
+  Saiba Mais
+ 
+</a>
+</div>
             </div>
 
                 </div>

@@ -14,7 +14,23 @@
     display: flex;
   
 }
+.text-end {
+ display: flex;;/* Empurra o botão para o final da div */
+ justify-content: end;
+ align-items: end;
+}
+.card-blog {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+}
 
+.card-blog h5 {
+  font-size: 1.25rem; /* Ajuste o tamanho da fonte conforme necessário */
+}
+.card-blog small {
+  font-size: 1rem;
+}
 #curso-carousel{
       margin-top: 50px !important;
 }
@@ -38,9 +54,20 @@
 }
 
 .custom-form {
-  display: flex !important;
+  display: flex;
+  width: 100%; /* Ajusta a largura do formulário para ocupar todo o espaço disponível */
+}
 
+.form-control {
+  flex: 1; /* Faz o campo de entrada ocupar todo o espaço disponível */
+  border-radius: 5px 0 0 5px; /* Bordas arredondadas apenas no lado esquerdo */
+  margin-right: -1px; /* Remove o espaçamento entre o campo de entrada e o botão */
+}
 
+.btn {
+  flex-shrink: 0; /* Impede que o botão encolha */
+  border-radius: 0 5px 5px 0; /* Bordas arredondadas apenas no lado direito */
+  margin-left: -1px; /* Remove o espaçamento entre o campo de entrada e o botão */
 }
 .navigation.show-background {
   background-color: rgba(0, 0, 0, 0.8);
@@ -299,6 +326,81 @@
   content: "";
 }
 
+/* Estilo do cartão do blog */
+.card-blog {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+ 
+}
+
+.card-blog img {
+  width: 100px; /* Define um tamanho fixo para a imagem */
+  height: 50px; /* Define uma altura fixa para a imagem */
+  object-fit: cover; /* Ajusta a imagem para preencher o contêiner */
+  border-radius: 5px; /* Bordas arredondadas na imagem */
+}
+
+.card-blog-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinha o conteúdo ao topo */
+  padding-left: 15px; /* Espaçamento entre a imagem e o texto */
+  flex: 1; /* Faz o conteúdo ocupar o restante do espaço */
+}
+
+.card-blog h5 {
+  margin: 0;
+  font-size: 1.25rem; /* Tamanho da fonte para o título */
+  font-weight: bold;
+}
+
+.card-blog small {
+  margin: 5px 0 0 0; /* Espaçamento superior */
+  font-size: 1rem; /* Tamanho da fonte para o texto */
+  color: #555; /* Cor do texto */
+}
+
+.card-blog .btn-read-more {
+  margin-top: 10px; /* Espaçamento superior para o botão "Leia mais" */
+  font-size: 0.875rem; /* Tamanho da fonte do botão */
+  color: #007bff; /* Cor do texto do botão */
+  text-decoration: none; /* Remove o sublinhado do link */
+}
+
+.card-blog .btn-read-more:hover {
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+
+
+  .card-blog-content {
+      padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-blog {
+      margin: 10px;
+  }
+
+  .card-blog-img img {
+      max-height: 150px;
+      object-fit: cover;
+  }
+
+  .card-blog-content h5 {
+      font-size: 1.1rem;
+  }
+
+  .card-blog-content small {
+      font-size: 0.875rem;
+  }
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .hero-section input[type="text"],
   .hero-section input[type="email"],
@@ -404,6 +506,7 @@
 .hero-section .space {
   height: 40px;
 }
+
 
 .page-wrapper:before {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);

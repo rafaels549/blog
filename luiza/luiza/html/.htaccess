@@ -1,21 +1,24 @@
 RewriteEngine On
 
-
+# Verifica se o arquivo ou diretório não existe
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-
+# Regras de reescrita
 RewriteRule ^$ index.php [L]
-
 
 RewriteRule ^blog/?$ blog.php [L]
 
-
 RewriteRule ^cursos/?$ cursos.php [L]
+RewriteRule ^equipe/?$ equipe.php [L]
 
+# Pesquisa no blog
+RewriteRule ^blog/pesquisa/([a-zA-Z0-9\+\-]+)/?$ blog.php?termo=$1 [L,QSA]
 
-RewriteRule ^blog/pesquisa/([a-zA-Z0-9\-]+)/?$ blog.php?termo=$1 [L,QSA]
+# Pesquisa nos cursos
+RewriteRule ^cursos/pesquisa/([a-zA-Z0-9\+\-]+)/?$ cursos.php?termo=$1 [L,QSA]
 
-RewriteRule ^cursos/pesquisa/([a-zA-Z0-9\-]+)/?$ cursos.php?termo=$1 [L,QSA]
-RewriteRule ^cursos/([a-zA-Z0-9\-]+)/?$ matricula.php?url_amigavel=$1 [L,QSA]
+# Matricula com URL amigável
+RewriteRule ^cursos/([a-zA-Z0-9\-_%20%C2%A0]+)/?$ matricula.php?url_amigavel=$1 [L,QSA]
+RewriteRule ^blog/([a-zA-Z0-9\-_%20%C2%A0]+)/?$ blog.php?url_amigavel=$1 [L,QSA]
 

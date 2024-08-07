@@ -68,34 +68,50 @@ function clean($string)
     // retorna a string
     return $string;
 }
-function reverse_clean($string)
-{
-    // Mapeamento dos caracteres limpos para seus caracteres originais
-    $table = array(
-        'S'=>'Š', 's'=>'š', 'Dj'=>'Đ', 'dj'=>'đ', 'Z'=>'Ž',
-        'z'=>'ž', 'C'=>'Č', 'c'=>'č', 'C'=>'Ć', 'c'=>'ć',
-        'A'=>'À', 'A'=>'Á', 'A'=>'Â', 'A'=>'Ã', 'A'=>'Ä',
-        'A'=>'Å', 'A'=>'Æ', 'C'=>'Ç', 'E'=>'È', 'E'=>'É',
-        'E'=>'Ê', 'E'=>'Ë', 'I'=>'Ì', 'I'=>'Í', 'I'=>'Î',
-        'I'=>'Ï', 'N'=>'Ñ', 'O'=>'Ò', 'O'=>'Ó', 'O'=>'Ô',
-        'O'=>'Õ', 'O'=>'Ö', 'O'=>'Ø', 'U'=>'Ù', 'U'=>'Ú',
-        'U'=>'Û', 'U'=>'Ü', 'Y'=>'Ý', 'B'=>'Þ', 'Ss'=>'ß',
-        'a'=>'à', 'a'=>'á', 'a'=>'â', 'a'=>'ã', 'a'=>'ä',
-        'a'=>'å', 'a'=>'æ', 'c'=>'ç', 'e'=>'è', 'e'=>'é',
-        'e'=>'ê', 'e'=>'ë', 'i'=>'ì', 'i'=>'í', 'i'=>'î',
-        'i'=>'ï', 'o'=>'ð', 'n'=>'ñ', 'o'=>'ò', 'o'=>'ó',
-        'o'=>'ô', 'o'=>'õ', 'o'=>'ö', 'o'=>'ø', 'u'=>'ù',
-        'u'=>'ú', 'u'=>'û', 'y'=>'ý', 'y'=>'ÿ', 'b'=>'þ',
-        'y'=>'ÿ'
+function reverse_clean($string) {
+    // Mapeamento dos caracteres especiais com suporte para UTF-8
+    $replacements = array(
+        'a' => 'à', 'A' => 'À', 'á' => 'á', 'Á' => 'Á', 'ã' => 'ã', 'Ã' => 'Ã',
+        'e' => 'è', 'E' => 'È', 'é' => 'é', 'É' => 'É', 'ê' => 'ê', 'Ê' => 'Ê',
+        'i' => 'ì', 'I' => 'Ì', 'í' => 'í', 'Í' => 'Í', 'î' => 'î', 'Î' => 'Î',
+        'o' => 'ò', 'O' => 'Ò', 'ó' => 'ó', 'Ó' => 'Ó', 'ô' => 'ô', 'Ô' => 'Ô',
+        'u' => 'ù', 'U' => 'Ù', 'ú' => 'ú', 'Ú' => 'Ú', 'û' => 'û', 'Û' => 'Û',
+        'c' => 'ç', 'C' => 'Ç',
+        'n' => 'ñ', 'N' => 'Ñ',
+        's' => 'š', 'S' => 'Š',
+        'd' => 'đ', 'D' => 'Đ',
+        'z' => 'ž', 'Z' => 'Ž',
+        'aa' => 'æ', 'AA' => 'Æ',
+        'oe' => 'ö', 'OE' => 'Ö',
+        'ue' => 'ü', 'UE' => 'Ü',
+        'a' => 'å', 'A' => 'Å',
+        'o' => 'ø', 'O' => 'Ø'
     );
 
-    // Converte hífens de volta em espaços
+    // Substituir hífens por espaços
     $string = str_replace('-', ' ', $string);
-    // Remove múltiplos espaços
-    $string = preg_replace("/\s+/", " ", $string);
-    // Converte para maiúsculas e substitui caracteres especiais
-    $string = strtoupper($string);
 
-    // Retorna a string com caracteres originais
-    return strtr($string, $table);
+    // Substituir caracteres especiais usando a tabela de substituição
+    foreach ($replacements as $search => $replace) {
+        $string = str_replace($search, $replace, $string);
+    }
+
+    // Converter a primeira letra de cada palavra para maiúscula
+    $string = mb_convert_case($string, MB_CASE_TITLE, "UTF-8");
+
+    // Retornar a string
+    return $string;
+}
+function decodeUrl($url) {
+    // Decodifica a URL e substitui '+' por espaço
+    $url = urldecode($url);
+    return str_replace('+', ' ', $url);
+}
+
+// Função para codificar a URL
+function encodeUrl($string) {
+    // Substitui espaço por '+'
+    $string = str_replace(' ', '+', $string);
+    // Codifica a URL
+    return $string;
 }

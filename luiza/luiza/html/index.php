@@ -199,10 +199,12 @@ if ($query && mysqli_num_rows($query) > 0) {
                                 <strong><i class="bi bi-geo-alt mr-2"></i> Cidade:</strong> <?= htmlspecialchars($cidade); ?><br>
                                 <strong><i class="bi bi-building mr-2"></i> Instituição:</strong> <?= htmlspecialchars($instituicao); ?>
                             </p>
-                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none; ">
-  Saiba Mais
- 
-</a>
+                            <div class="text-end">
+                            <a   href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow text-end" style="background-color: rgb(212, 170, 80); border:none;magin-left:100px; ">
+                                Saiba Mais
+                                
+                                </a>
+                            </div>
                         </div>
                         <!--end blog-item-->
                            
@@ -374,9 +376,9 @@ if ($query && mysqli_num_rows($query) > 0) {
                         $img = 'assets/img/sem_imagem.jpg';
                     }
                     
-                    $facebook = isset($dados['facebook']) ? htmlspecialchars($dados['facebook']) : '#';
-                    $twitter = isset($dados['twitter']) ? htmlspecialchars($dados['twitter']) : '#';
-                    $instagram = isset($dados['instagram']) ? htmlspecialchars($dados['instagram']) : '#';
+                    $facebook = isset($dados['facebook']) ? htmlspecialchars($dados['facebook']) : '';
+                    $twitter = isset($dados['twitter']) ? htmlspecialchars($dados['twitter']) : '';
+                    $instagram = isset($dados['instagram']) ? htmlspecialchars($dados['instagram']) : '';
                 ?>
                     <div class="item">
                         <div class="person center framed">
@@ -388,9 +390,17 @@ if ($query && mysqli_num_rows($query) > 0) {
                             <h3><?= htmlspecialchars($nome); ?></h3>
                             <h4><?= htmlspecialchars($cargo); ?></h4>
                             <div class="social">
-                                <a href="<?= htmlspecialchars($facebook); ?>"><i class="social_facebook_circle"></i></a>
-                                <a href="<?= htmlspecialchars($twitter); ?>"><i class="social_twitter_circle"></i></a>
-                                <a href="<?= htmlspecialchars($instagram); ?>"><i class="social_instagram_circle"></i></a>
+                            <?php if (!empty($facebook)): ?>
+                    <a href="<?= htmlspecialchars($facebook); ?>"><i class="social_facebook_circle"></i></a>
+                <?php endif; ?>
+                
+                <?php if (!empty($twitter)): ?>
+                    <a href="<?= htmlspecialchars($twitter); ?>"><i class="social_twitter_circle"></i></a>
+                <?php endif; ?>
+                
+                <?php if (!empty($instagram)): ?>
+                    <a href="<?= htmlspecialchars($instagram); ?>"><i class="social_instagram_circle"></i></a>
+                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -441,7 +451,9 @@ if ($query && mysqli_num_rows($query) > 0) {
                         </a>
                         <h3><?= htmlspecialchars($titulo); ?></h3>
                         <p><?= htmlspecialchars($resumo); ?></p>
+                         <div class="text-end">
                         <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none;">Leia mais</a>
+                        </div>
                     </div>
                 <?php } ?>
             </div>

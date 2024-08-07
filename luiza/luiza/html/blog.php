@@ -91,12 +91,155 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 include_once 'includes/header.php';
 
-?>
-    <!--end page-header-->
+$blog_sql = "SELECT id, img, titulo, resumo, data_publicacao, categoria, url_amigavel
+FROM blog
+WHERE status = 'a'
+ORDER BY data_publicacao DESC
+LIMIT 5";
+$blog_recents = mysqli_query($conn, $blog_sql);
 
-    <div id="page-content">
+if (!$blog_recents) {
+    die("Erro na consulta SQL: " . mysqli_error($conn));
+}
+
+
+?>
+<div class="block" id="blog">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-4 col-sm-12">
+    <section id="sidebar">
+        <aside id="search">
+            <header><h3>Procurar</h3></header>
+            
+            <form action="" class="custom-form" method="post">
+    <input type="text" class="form-control" name="pesquisa_blog" placeholder="Buscar Blog">
+    <button class="btn btn-default search" type="submit">
+        <i class="fa fa-search"></i>
+    </button>
+</form>
+           
+            <h3>Posts Mais Recentes</h3>
+        </aside>
+        <div class="blog-container">
+        <?php while ($blog = mysqli_fetch_assoc($blog_recents)) { 
+            $img = $site . '/assets/img/blog/' . (isset($blog['img']) ? $blog['img'] : 'sem_imagem.jpg');
+        ?>
+        <div class="blog-card">
+            <a href="<?php echo htmlspecialchars($blog['url_amigavel']); ?>" class="blog-link">
+                <div class="card-blog">
+                    <div class="card-blog-img">
+                        <img src="<?php echo htmlspecialchars($img); ?>" alt="<?php echo htmlspecialchars($blog['titulo']); ?>">
+                    </div>
+                    <div class="card-blog-content">
+                        <h5><?php echo htmlspecialchars($blog['titulo']); ?></h5>
+                        <small>Leia mais</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <?php } ?>
+        </div>
+    </section>
+</div>
+    <!--end page-header-->
+    <?php
+// Verificar se uma URL amigável foi fornecida
+if (isset($_GET['url_amigavel'])) {
+    $url_amigavel = mysqli_real_escape_string($conn, $_GET['url_amigavel']);
+    $results_per_page = 6; 
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+$start_from = ($page - 1) * $results_per_page; 
+
+if (isset($_POST['pesquisa_blog'])) {
+    $_SESSION['pesquisa'] = $_POST['pesquisa_blog'];
+    $pesquisa = clean($_POST['pesquisa_blog']);
+    if(empty($_SESSION['pesquisa'])) {
+        header("Location: http://localhost/luiza/luiza/luiza/html/blog");
+        exit();
+    } else {
+        $pesquisa_url = mb_convert_case(str_replace(' ', '-', $pesquisa), MB_CASE_LOWER);
+        echo "<meta http-equiv='refresh' content='0;URL=http://localhost/luiza/luiza/luiza/html/blog/pesquisa/" . $pesquisa_url . "'>";
+        exit(); 
+    }
+}
+
+$keyword = isset($_SESSION['pesquisa']) ? $_SESSION['pesquisa'] : '';
+
+$sql = "SELECT id, img, titulo, resumo, data_publicacao, categoria, url_amigavel 
+        FROM blog 
+        WHERE (titulo LIKE '%$keyword%' OR resumo LIKE '%$keyword%' OR categoria LIKE '%$keyword%') 
+        AND status = 'a' 
+        ORDER BY data_publicacao DESC
+        LIMIT $start_from, $results_per_page";
+
+$query = mysqli_query($conn, $sql);
+
+if (!$query) {
+    die("Erro na consulta SQL: " . mysqli_error($conn));
+}
+
+// Consulta para determinar o número total de blogs
+$total_sql = "SELECT COUNT(*) FROM blog WHERE (titulo LIKE '%$keyword%' OR resumo LIKE '%$keyword%' OR categoria LIKE '%$keyword%') AND status = 'a'";
+$total_query = mysqli_query($conn, $total_sql);
+
+if (!$total_query) {
+    die("Erro na consulta SQL: " . mysqli_error($conn));
+}
+
+$total_row = mysqli_fetch_array($total_query);
+$total_records = $total_row[0];
+$total_pages = ceil($total_records / $results_per_page);
+
+    // Consulta para obter o conteúdo do blog com base na URL amigável
+    $blog_sql = "SELECT id, img, titulo, resumo, data_publicacao, categoria, url_amigavel  
+                 FROM blog 
+                 WHERE url_amigavel = '$url_amigavel' 
+                 AND status = 'a'";
+
+    $blog_query = mysqli_query($conn, $blog_sql);
+
+    if ($blog_query && mysqli_num_rows($blog_query) > 0) {
+        $blog_data = mysqli_fetch_assoc($blog_query);
+
+        $img = $site . '/assets/img/blog/' . (isset($blog_data['img']) ? $blog_data['img'] : 'sem_imagem.jpg');
+        $titulo = isset($blog_data['titulo']) ? htmlspecialchars($blog_data['titulo']) : '';
+        $conteudo = isset($blog_data['resumo']) ? htmlspecialchars($blog_data['resumo']) : '';
+        $data_publicacao = isset($blog_data['data_publicacao']) ? date('d/m/Y', strtotime($blog_data['data_publicacao'])) : '';
+        $categoria = isset($blog_data['categoria']) ? htmlspecialchars($blog_data['categoria']) : '';
+        ?>
+
+      
+                    <!-- Content -->
+                    <div class="col-md-8 col-sm-8">
+                        <section id="content">
+                            <article class="blog-post">
+                                <img src="<?= htmlspecialchars($img); ?>" alt="<?= htmlspecialchars($titulo); ?>">
+                                <header><h2><?= htmlspecialchars($titulo); ?></h2></header>
+                                <figure class="meta">
+                                    <a href="#" class="link icon"><i class="fa fa-calendar"></i><?= htmlspecialchars($data_publicacao); ?></a>
+                                    <a href="#" class="link icon"><i class="fa fa-tag"></i><?= htmlspecialchars($categoria); ?></a>
+                                </figure>
+                                <p><?= htmlspecialchars($conteudo); ?></p>
+                            </article>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php
+    } else {
+        // Se não encontrar o blog, exibe uma mensagem de erro
+        echo '<p>Blog não encontrado.</p>';
+    }
+} else {
+    // Se não houver URL amigável, exibe a lista de blogs
+    ?>
+
     <?php
 // Verifique se a página acessada é a inicial do blog
+
 
 $results_per_page = 6; 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
@@ -143,50 +286,13 @@ $total_records = $total_row[0];
 $total_pages = ceil($total_records / $results_per_page);
 
 // Consulta para obter todas as categorias distintas
-$categories_sql = "SELECT DISTINCT categoria FROM blog WHERE categoria IS NOT NULL AND categoria <> '' ORDER BY categoria";
-$categories_query = mysqli_query($conn, $categories_sql);
 
-if (!$categories_query) {
-    die("Erro na consulta SQL: " . mysqli_error($conn));
-}
 ?>
 
-<div class="block" id="blog">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-3">
-                <section id="sidebar">
-                    <aside id="search">
-                        <header><h3>Procurar</h3></header>
-                        <div class="input-group">
-                            <form action="" class="custom-form" method="post">
-                                <input type="text" class="form-control" name="pesquisa_blog" placeholder="Buscar Blog">
-                                <span class="input-group-btn"><button class="btn btn-default search" type="submit"><i class="fa fa-search"></i></button></span>
-                            </form>
-                        </div>
-                        <h3>Categorias</h3>
-                          
-                    </aside>
-                    <ul class="categories-list">
-                            <?php
-                            if ($categories_query && mysqli_num_rows($categories_query) > 0) {
-                                while ($category = mysqli_fetch_assoc($categories_query)) {
-                                    $category_name = htmlspecialchars($category['categoria']);
-                                    // Formulário para cada categoria
-                                    echo "<li>";
-                                    echo "<form action='' method='post' style='display: inline;'>";
-                                    echo "<input type='submit' name='pesquisa_blog' value='" . htmlspecialchars($category_name) ."' style='background: none; border: none; color: inherit; cursor: pointer;'>";
-                                    echo "</form>";
-                                    echo "</li>";
-                                }
-                            } else {
-                                echo '<li>Sem categorias disponíveis</li>';
-                            }
-                            ?>
-                        </ul>     
-                </section>
-            </div>
-            <div class="col-md-9 col-sm-9">
+
+
+
+            <div class="col-md-8 col-sm-12">
                 <div class="row">
                     <?php
                     if ($query && mysqli_num_rows($query) > 0) {
@@ -221,7 +327,9 @@ if (!$categories_query) {
                                 
                                 <?= htmlspecialchars($resumo); ?>
                             </p>
-                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow">Leia Mais</a>
+                            <div class="text-end">
+                        <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none;">Leia mais</a>
+                        </div>
                             
                         </div>
                     <?php
@@ -264,7 +372,11 @@ if (!$categories_query) {
                                
                                 <?= htmlspecialchars($resumo); ?>
                             </p>
-                            <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow">Leia Mais</a>
+                            <div class="text-end">
+                        <a href="<?= htmlspecialchars($url); ?>" class="btn btn-rounded btn-primary arrow" style="background-color: rgb(212, 170, 80); border:none;">Leia mais</a>
+                        </div>
+
+
                         </div>
                         <?php
                             }
@@ -298,7 +410,9 @@ if (!$categories_query) {
 
     </div>
     <!--end page-content-->
-
+    <?php
+}
+?>
           <?php
 
 include_once 'includes/contato.php';
@@ -312,7 +426,13 @@ include_once 'includes/footer.php';
 ?>
         <!--end page-footer-->
 
-    </div>
+        </div>
+    <!--end page-wrapper-->
+
+
+ 
+
+</body>
 <script type="text/javascript" src="<?=$site;?>/assets/js/jquery-2.2.1.min.js"></script>
 <script type="text/javascript" src="<?=$site;?>/assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
