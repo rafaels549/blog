@@ -5,7 +5,7 @@ setlocale(LC_ALL, 'pt_BR');
 date_default_timezone_set('America/Sao_Paulo');
 
 // Atualize as credenciais de conexão com o banco de dados
-$conn = mysqli_connect("localhost", "root", "", "hof_team_brazil");
+$conn = mysqli_connect("localhost", "admin", "afklol57", "hof_team_brazil");
 
 
 // Verifique se a conexão foi bem-sucedida
@@ -22,7 +22,7 @@ $vb_descricao_site = "HOF Team Brazil, cursos de harmonização orofacial e est�
 $vb_meta_site = "cursos, harmonização orofacial, estética avançada, HOF Team Brazil, Taubaté, Campinas, Pindamonhangaba, Rio de Janeiro, especialização";
 $vb_email = "contato@hofteambrazil.com.br";
 $vb_email_site = "mailto:$vb_email";
-$dominio = $_SERVER['HTTP_HOST'] .'/luiza/luiza/luiza/html';
+$dominio = $_SERVER['HTTP_HOST'] .'/blog/luiza/luiza/html';
 $site = "http://$dominio";
 $vb_autor_site = "Virtua Brasil";
 $vb_sub_site = "HOF Team Brazil";

@@ -467,7 +467,17 @@ if ($query && mysqli_num_rows($query) > 0) {
 <?php } ?>
             <!--end block-->
 
-
+            <div class="cookie-banner">
+        <p>
+            Ao utilizar nosso website, você concorda com o uso de cookies conforme a
+            <a href="<?=$site;?>/lgpd" title="CONFIGURAÇÕES (LGPD)">
+                <strong> LEI GERAL DE PROTEÇÃO DE DADOS.</strong>
+            </a>
+            <button type="button" onclick="document.querySelector('.cookie-banner').style.display='none'">
+                ACEITO
+            </button>
+        </p>
+    </div>
             <div class="container">
                 <hr>
             </div>
@@ -499,7 +509,47 @@ include_once 'includes/footer.php';
 ?>
 
 </body>
-
+<style>
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            z-index: 9999999;
+            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            margin: 0 auto;
+        }
+        .cookie-banner p {
+            color: black;
+            font-size: 14px;
+       
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        .cookie-banner a {
+            color: #0a4d3c;
+            font-weight: 500;
+            text-decoration: none;
+            padding-right: 5px;
+        }
+        .cookie-banner button {
+            padding: 5px 15px;
+            font-weight: 400;
+            color: #fff;
+            background-color: #0a4d3c;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+    </style>
 
    <!--end outer-wrapper-->
     <!--end outer-wrapper-->

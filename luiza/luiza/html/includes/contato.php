@@ -49,89 +49,80 @@ if(isset($_POST["acao"]) && $_POST["acao"]=="enviar") {
 }
 ?>
 
+<div class="block" style="background-color: rgb(51, 51, 51);" id="contato">
 
-<div class="block" id="contato">
                 <div class="container">
-                    <h2>Contato</h2>
-                    <div class="contact map">
-                        <div class="row">
-                            <div class="col-md-5 col-sm-5" data-scroll-reveal="enter bottom and move 20px">
+                <h2 style="color:white; text-align: start;">Contato</h2>
+                    <br><br>
+               
+                    <div class="contact contact-container row">
+                        <div class="col-md-5 col-sm-12 contact-info" data-scroll-reveal="enter bottom and move 20px">
+                            <h3 style="color:white;">Telefone</h3>
+                            <div class="social">
+                                <a style="color: white; display: block; padding-bottom: 10px;">
+                                    <i class="fa fa-whatsapp"></i>(12) 99632-5327
+                                </a>
+                            </div>
+                            <h3 style="color:white;">Email</h3>
+                            <div class="social">
+                                <a href="#" style="color:white; display: block; padding-bottom: 10px;">
+                                    <i  class="bi bi-envelope"></i>contato@hofteambrazil.com.br
+                                </a>
+                            </div>
+                            <h3 style="color:white;">Redes sociais</h3>
+                            <div class="social">
+                                <a target="_blank" href="https://www.facebook.com/hofteambrazil?mibextid=ZbWKwL&_rdc=1&_rdr" style="color:white; display: block; padding-bottom: 10px;">
+                                    <i class="bi bi-facebook"></i> Facebook
+                                </a>
+                                <a target="_blank" href="https://www.instagram.com/hofteambrazil/" style="color:white; display: block;">
+                                    <i class="bi bi-instagram"></i> Instagram
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-12 contact-form" data-scroll-reveal="enter top and move 20px">
+                            <h3 style="color:white;">Tire suas dúvidas</h3>
+                            <form id="form-contact" method="POST" class="clearfix">
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>Menus</h3>
-                                        <p>
-                                            <a href="">Home</a><br>
-                                            <a href="">Cursos</a><br>
-                                            <a href="">Sobre</a><br>
-                                            <a href="">Equipe</a><br>
-                                            <a href="">Blog</a><br>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <h3>Redes sociais</h3>
-                                        <div class="social">
-                                            <a href="https://www.facebook.com/hofteambrazil?mibextid=ZbWKwL&_rdc=1&_rdr"><i class="social_facebook_circle"></i>Facebook</a>
-                                            <a href="https://www.instagram.com/hofteambrazil/"><i class="social_instagram_circle"></i>Instagram</a>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                        <input type="text" class="form-control" id="form-contact-name"
+                                        name="nome" style="background-color: whitesmoke;"  placeholder="Nome completo" required>
                                         </div>
-                                        <!--end social-->
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-7 col-sm-7" data-scroll-reveal="enter top and move 20px">
-                                <h3>Tire suas dúvidas</h3>
-                                <form id="form-contact" method="post" class="clearfix">
-                                    <div class="row">
-                                        <div class="col-md-12 col-sm-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="form-contact-name"
-                                                    name="nome" placeholder="Nome completo" required>
-                                            </div>
-                                            <!--end form-group -->
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                        <input type="tel" class="form-control  celular" id="form-contact-email"
+                                        name="whatsapp" style="background-color: whitesmoke;"  placeholder="Seu Whatsapp" required>
                                         </div>
-                                        <!--end col-md-6 col-sm-6 -->
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group">
-                                                <input type="tel" class="form-control  celular" id="form-contact-email"
-                                                    name="whatsapp"  placeholder="Seu Whatsapp" required>
-                                            </div>
-                                            <!--end form-group -->
-                                        </div>
-
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="form-group">
-                                                <input type="email" class="form-control" id="form-contact-email"
-                                                    name="email"  placeholder="Seu Email" required>
-                                            </div>
-                                            <!--end form-group -->
-                                        </div>
-                                        <!--end col-md-6 col-sm-6 -->
                                     </div>
-                                    <!--end row -->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <textarea class="form-control" id="form-contact-message" rows="8"
-                                                    name="mensagem" placeholder="Sua mensagem" required></textarea>
-                                            </div>
-                                            <!--end form-group -->
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                        <input type="email" class="form-control" id="form-contact-email"
+                                        name="email"  placeholder="Seu Email"  style="background-color: whitesmoke;"  required>
                                         </div>
-                                        <!--end col-md-12 -->
                                     </div>
-                                    <!--end row -->
-                                    <div class="form-group clearfix">
-                                        <button name="acao" value="enviar" type="submit" class="btn pull-right btn-primary btn-rounded"
-                                            id="form-contact-submit">Enviar</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <textarea class="form-control" id="form-contact-message" rows="8"
+                                        name="mensagem" placeholder="Sua mensagem" style="background-color: whitesmoke;"  required></textarea>
+                                        </div>
                                     </div>
-                                    <!--end form-group -->
-                                    <div id="form-contact-status"></div>
-                                </form>
-                                <!--end form-contact -->
-                            </div>
-                            <!--end col-md-6-->
+                                </div>
+                                <div class="form-group text-center">
+                                    <button name="acao" value="enviar" type="submit" class="btn pull-right btn-primary btn-rounded"
+                                    id="form-contact-submit" style="background-color: rgb(212, 170, 80);border:none;">Enviar</button>
+                                </div>
+                                <div id="form-contact-status"></div>
+                            </form>
                         </div>
-                        <!--end row-->
                     </div>
-                    <!--end contact map-->
                 </div>
-                <!--end container-->
             </div>
+            
+            
+            
+        </div>
